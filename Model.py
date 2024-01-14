@@ -4,11 +4,15 @@ from gurobipy import GRB
 # Set of OD-pairs
 Q = [0, 1, 2]  # Replace ... with the actual set of OD-pairs
 
+# Set of paths for each OD-pair
+
+W =...,
+
 # Set of nodes
 K = list(range(9)) # Replace ... with the actual set of nodes
 
 # Set of nodes capable of capturing the flow of OD-pair q
-N_q = [[1, 2, 3, 4], [0, 3, 5], [4, 6, 8]]  # Replace ... with the actual sets of nodes
+N_q = [[1, 2, 3, 4], [(0, 3, 5),(0,2,5),(0,4,5)], [4, 6, 8]]  # Replace ... with the actual sets of nodes
 
 # Set of flows through OD-pairs q
 f_q = {0:6, 1:2, 2:4}  # Replace ... with the actual sets of flows
