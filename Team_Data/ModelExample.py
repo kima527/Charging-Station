@@ -36,11 +36,14 @@ f_qp = {0: {0: 4, 1: 2, 2: 2}, 1: {0: 1, 1: 0.5, 2: 0.5}, 2: {0: 2, 1: 1, 2: 1}}
 d_k = {0: 4, 1: 8, 2: 4.5, 3: 5, 4: 12.5, 5: 5, 6: 3, 7: 0, 8: 4}
 
 # Fixed charging station installation cost
-FC = 20
+FC = 21
 
 # Variable charging station installation cost depending on the number of modules installed
-VC = 5
-# TODO find reliable data on the ratio FC/VC
+VC = 20
+# Reliable data on the ratio FC/VC: https://afdc.energy.gov/files/u/publication/evse_cost_report_2015.pdf
+# Ratio is 1:1, see article page 30
+# Values in 1000$
+
 # Budget available
 B = 100
 
@@ -212,9 +215,9 @@ def get_modelresults(B, Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP):
 # Visualize in Graph
 def get_modelresults_budgetiterations(Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP):
 
-    Iterations = range(10)
-    Initial_budget = 40
-    Budget_steps = 10
+    Iterations = range(15)
+    Initial_budget = 80
+    Budget_steps = 15
     B = Initial_budget
 
     visualize_network(Coordinates, N_qp, f_qp, d_k)
@@ -253,5 +256,5 @@ def get_modelresults_budgetiterations(Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP):
 #TODO In post-processing relate q-keys to coordinates, visualize network and nodes where stations are installed.----
 #     Then visualize the arcs in colours, depending on how much of their flow is covered.---------------------------
 
-get_modelresults(B, Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP)
+#get_modelresults(B, Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP)
 get_modelresults_budgetiterations(Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP)
