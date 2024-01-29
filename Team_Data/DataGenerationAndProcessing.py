@@ -116,10 +116,12 @@ def get_parameters( routes_nodes, G,annual_trips):
     # Nodes capable of capturing the flow of OD-pair q
     N_q = {od: routes_nodes[od] for od in Q}
 
+    # Charges/ year of one fast charger
+    Charger_annual_capacity = 17520 #30 mins for full charge
     # Flows through OD-pairs - Define based on your scenario
     f_q = {od: flow_value for od, flow_value in zip(Q, [])}
     for od, value in annual_trips.items():
-        f_q[od] = value
+        f_q[od] = value/Charger_annual_capacity
 
     # Initialize d_k with zeros for all nodes
     d_k = {node: 0 for node in G.nodes()}
