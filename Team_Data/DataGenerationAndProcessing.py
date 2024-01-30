@@ -7,7 +7,7 @@ from geopy.distance import great_circle
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
-#---------------------------------------------------Data gathering------------------------------------------------------
+# ---------------------------------------------------Data gathering----------------------------------------------------
 
 def get_routes():
     # Define locations
@@ -48,8 +48,8 @@ def get_routes():
         "Münchener Freiheit to Olympiapark": nx.shortest_path_length(G, nearest_nodes["Münchener Freiheit"], nearest_nodes["Olympiapark"], weight='length'),
     }
 
-
     return coords, routes_nodes, routes_length, G
+
 
 def get_flows(coords, routes_length):
 
@@ -98,10 +98,10 @@ def get_flows(coords, routes_length):
     for route, trips in annual_trips.items():
         print(f"{route}: {trips} trips/year")
 
-
     return annual_trips
 
-#-------------------------------------------------------------Data translation-----------------------------------------
+# -------------------------------------------------------------Data translation-----------------------------------------
+
 
 def get_parameters( routes_nodes, G,annual_trips):
     # OD-pairs based on our route_nodes (as strings)
