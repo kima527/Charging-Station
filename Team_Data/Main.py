@@ -15,3 +15,8 @@ if __name__ == '__main__':
     model_run(FC, VC, B, CAP, M)
     visualize_potential_facility_location()
 
+#TODO
+# different scenarios 1, 2, 3 (shortest route, 50/50, 30/30/30)
+# lower limit of flow to be served in buget iterations - service level fixed
+# play with these two parameters and always fix one
+# https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.connectivity.disjoint_paths.edge_disjoint_paths.html
