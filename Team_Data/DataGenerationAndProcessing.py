@@ -133,7 +133,7 @@ def get_parameters( routes_nodes, G,annual_trips):
             d_k[node] += flow  # Add the flow to the demand of the node
 
     for od, route in N_q.items():
-        print(f"OD Pair '{od}' with flow {f_q[od]}:")
+        print(f"OD Pair '{od}' with flow {f_q[od]} per 30 minutes:")
         for node in route:
             print(f"  Node {node} has demand {d_k[node]}")
 
