@@ -9,29 +9,29 @@ import Model
 
 if __name__ == '__main__':
 
-    FC = 200  # Fixed charging station installation cost
-    VC = 20   # Variable charging station installation cost
-    B = 800  # Budget
-    CAP = 40 # Module Cap
+    FC = 2000  # Fixed charging station installation cost
+    VC = 10   # Variable charging station installation cost
+    B = 4000  # Budget
+    CAP = 60 # Module Cap
     M = 999999  # Very large number
 
     # Please uncomment this block to run the Base model
-
+    """
     coords, routes_nodes, routes_length, G = data.get_routes()
     annual_trips = data.get_flows(coords, routes_length)
     Q, K, N_q, f_q, d_k = data.get_parameters(routes_nodes, G, annual_trips)
     base_model = Model.Model(FC, VC, B, CAP, M, Q, K, N_q, f_q, d_k, coords, routes_nodes, routes_length, G, False)
     base_model.run()
-
+    """
 
     # Please uncomment this block to run extended model
-    """
+
     coords, routes_nodes, routes_length, G = extendedData.get_routesandpaths()
     annual_trips = data.get_flows(coords, routes_length)
     Q, P, K, N_qp, f_q, f_qp, d_k = extendedData.get_parameters_extended(routes_nodes, annual_trips)
     extend_model = Model.Model(FC, VC, B, CAP, M, Q, K, N_qp, f_qp, d_k, coords, routes_nodes, routes_length, G, True)
     extend_model.run()
-    """
+
 
 
 

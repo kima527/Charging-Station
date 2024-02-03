@@ -99,14 +99,17 @@ def get_parameters_extended(routesandpath_nodes, annual_trips):
     K = list(K)
 
     # Set of nodes capable of capturing the flow of OD-pair q, on path p. First path is the main path
-    N_qp = routesandpath_nodes
+    #N_qp = routesandpath_nodes
+    # changed, because we access everything as a dictionary not list
+    N_qp = {q: {p: routesandpath_nodes[Q.index(q)][p-1] for p in P} for q in Q}
 
     # Charges/ year of one fast charger
     Charger_annual_capacity = 17520 #30 mins for full charge
+    EVsPerCapitaGer = 15.6 / 1000
     # Flows through OD-pairs - Define based on your scenario
     f_q = {od: flow_value for od, flow_value in zip(Q, [])}
     for od, value in annual_trips.items():
-        f_q[od] = value/Charger_annual_capacity
+        f_q[od] = (value/Charger_annual_capacity) * EVsPerCapitaGer
 
     f_qp = {}
     for od, value in f_q.items():
