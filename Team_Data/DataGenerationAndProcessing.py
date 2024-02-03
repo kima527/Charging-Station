@@ -118,10 +118,11 @@ def get_parameters(routes_nodes, G, annual_trips):
 
     # Charges/ year of one fast charger
     Charger_annual_capacity = 17520 #30 mins for full charge
+    EVsPerCapitaGer = 15.6/1000
     # Flows through OD-pairs - Define based on your scenario
     f_q = {od: flow_value for od, flow_value in zip(Q, [])}
     for od, value in annual_trips.items():
-        f_q[od] = value/Charger_annual_capacity
+        f_q[od] = (value/Charger_annual_capacity)*EVsPerCapitaGer
 
     # Initialize d_k with zeros for all nodes
     d_k = {node: 0 for node in G.nodes()}
