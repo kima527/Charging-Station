@@ -103,7 +103,7 @@ def get_flows(coords, routes_length):
 # -------------------------------------------------------------Data translation-----------------------------------------
 
 
-def get_parameters( routes_nodes, G,annual_trips):
+def get_parameters(routes_nodes, G, annual_trips):
     # OD-pairs based on our route_nodes (as strings)
     Q = list(routes_nodes.keys())
 

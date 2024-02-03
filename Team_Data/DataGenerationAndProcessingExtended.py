@@ -6,6 +6,7 @@ from DataGenerationAndProcessing import get_flows
 # on to each path p in each q:(1/3)(1/3)(1/3). E.g. f_q[0]=3 -> f_qp[0]=[1,1,1]. Therefore we import get_flows and apply
 # it in line 129. The Translated data has to fit into the model in OptModelExtended and run results.
 
+
 def get_routesandpaths():
 
     locations = {
@@ -74,28 +75,28 @@ def get_routesandpaths():
     """
 
     # Plot the graph and routes
-    flattened_routes = [node for route in routesandpath_nodes for node in route]
-    route_colors=['red', 'red', 'red', 'blue', 'blue','blue', 'green', 'green', 'green', 'yellow', 'yellow','yellow', 'orange', 'orange', 'orange']
-    fig, ax = ox.plot_graph_routes(G, flattened_routes, route_colors=route_colors , route_linewidth=6, node_size=8)
-    plt.show()
+    #flattened_routes = [node for route in routesandpath_nodes for node in route]
+    #route_colors=['red', 'red', 'red', 'blue', 'blue','blue', 'green', 'green', 'green', 'yellow', 'yellow','yellow', 'orange', 'orange', 'orange']
+    #fig, ax = ox.plot_graph_routes(G, flattened_routes, route_colors=route_colors , route_linewidth=6, node_size=8)
+    #plt.show()
 
     return coords, routesandpath_nodes, routes_shortestpath_length, G
 
-""""
-def get_parameters_extended( routesandpath_nodes, annual_trips):
+
+def get_parameters_extended(routesandpath_nodes, annual_trips):
 
     # OD-pairs based on our route_nodes (as indices)
-    Q = len(routesandpath_nodes)
+    Q = list(routes_shortestpath_length.keys())
 
     # Path options
     P = [1,2,3]
 
     # Nodes based on our route_nodes (as value)
-    all_nodes = set()
+    K = set()
     for route_paths in routesandpath_nodes:
         for path in route_paths:
-            all_nodes.update(path)
-    K = list(all_nodes)
+            K.update(path)
+    K = list(K)
 
     # Set of nodes capable of capturing the flow of OD-pair q, on path p. First path is the main path
     N_qp = routesandpath_nodes
@@ -103,27 +104,30 @@ def get_parameters_extended( routesandpath_nodes, annual_trips):
     # Charges/ year of one fast charger
     Charger_annual_capacity = 17520 #30 mins for full charge
     # Flows through OD-pairs - Define based on your scenario
-    f_q = {od: flow_value for od, flow_value in Q}
+    f_q = {od: flow_value for od, flow_value in zip(Q, [])}
     for od, value in annual_trips.items():
         f_q[od] = value/Charger_annual_capacity
 
     f_qp = {}
     for od, value in f_q.items():
-        f_qp[od] = {f"{od}_{i}": value / 3 for i in range(1, 4)}
+        f_qp[od] = {int(i): value / 3 for i in range(1, 4)}
 
-    # Initialize d_k with zeros for all nodes
-    d_k = {node: 0 for node in set(node for paths in N_qp for path in paths for node in path)}
+    # Initialize d_k dictionary with zeros for all nodes
+    d_k = {node: 0 for node in G.nodes}
 
-    # Update d_k based on flows f_qp
-    for od, paths in N_qp.items():
-        for path, flow in f_qp[od].items():
-            for node in path:
-                d_k[node] += flow
+    # Iterate over the routesandpath_nodes list
+    for route_list in routesandpath_nodes:
+        for route in route_list:
+            for node in route:
+                for i in range(1, 4):
+                    od_key = int(i)  # Construct the key for the corresponding flow in f_qp
+                    flow = f_qp.get(od, {}).get(od_key, 0)  # Get the flow value from f_qp or use 0 if not found
+                    d_k[node] += flow
 
     # d_k now contains the summed demand for each node based on the routes and flows
 
     return Q, P, K, N_qp, f_q, f_qp, d_k
-"""
+
 
 coords, routesandpath_nodes, routes_shortestpath_length, G = get_routesandpaths()
 annual_trips = get_flows(coords,routes_shortestpath_length )
