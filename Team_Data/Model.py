@@ -41,7 +41,7 @@ class Model:
 
         # Create a Gurobi model
         model = gp.Model("OD_Flow_Maximization")
-
+        model.setParam('TimeLimit',120)
         # Decision variables
         global x, y, z
         if self.is_extended:
@@ -64,12 +64,14 @@ class Model:
             model.addConstr(gp.quicksum(z[k] * FC + x[k] * VC for k in K) <= B, "Budget_Constraint")
             model.addConstrs((x[k] <= z[k] * M for k in K), "Module_Capacity")
             model.addConstrs((x[k] <= CAP for k in K), "Cap on modules at one station")
+            model.addConstrs((y[q, p] >= 0.2 for q in Q for p in P), "Minimum service ratio for all paths, when Budget>=4000")
 
         else:
             model.addConstrs((gp.quicksum(x[k] / self.d_k[k] for k in self.N_q[od]) >= y[od] for od in self.Q), "Proportion_Refueled")
             model.addConstr(gp.quicksum(z[k] * FC + x[k] * VC for k in K) <= B, "Budget_Constraint")
             model.addConstrs((x[k] <= z[k] * M for k in K), "Module_Capacity")
             model.addConstrs((x[k] <= CAP for k in K), "Cap on modules at one station")
+            model.addConstrs((y[od] >= 0.2 for od in Q),"Minimum service ratio for all paths, when Budget>=4000")
 
 
         return model
@@ -78,7 +80,7 @@ class Model:
         P=[1,2,3]
         result_locations = []
 
-        if model.status == GRB.OPTIMAL:
+        if model.status == GRB.OPTIMAL or model.Status == GRB.TIME_LIMIT:
             print("\nOptimal Objective Value:", round(model.objVal, 2))
             print("\nCoverage:")
             if self.is_extended:
@@ -107,7 +109,9 @@ class Model:
             model = self.create_model(self.FC, self.VC, self.B, self.CAP, self.M, self.Q, self.K, self.N_q, self.f_q,
                                       self.d_k, self.coord, self.routes_nodes, self.routes_length, self.G)
         model.optimize()
+        objective = model.objVal
         self.print_result(model)
+        return objective
 
     def get_node_coordinates(self, node_id):
         G = ox.graph_from_address("Munich, Germany", network_type='drive', dist=5000)
