@@ -95,8 +95,8 @@ def get_flows(coords, routes_length):
     annual_trips = {route: trips * 260 for route, trips in estimated_trips.items()}
 
     # Print the estimated annual trips for each route
-    for route, trips in annual_trips.items():
-        print(f"{route}: {trips} trips/year")
+    # for route, trips in annual_trips.items():
+    #     print(f"{route}: {trips} trips/year")
 
     return annual_trips
 

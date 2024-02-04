@@ -1,7 +1,7 @@
 import osmnx as ox
 import networkx as nx
-import matplotlib.pyplot as plt
 from DataGenerationAndProcessing import get_flows
+from shapely.geometry import Point, LineString
 #TODO: translate data - for flows we take the same approach as in DataGenerationAndProcessing and distribute them evenly
 # on to each path p in each q:(1/3)(1/3)(1/3). E.g. f_q[0]=3 -> f_qp[0]=[1,1,1]. Therefore we import get_flows and apply
 # it in line 129. The Translated data has to fit into the model in OptModelExtended and run results.
@@ -55,30 +55,7 @@ def get_routesandpaths():
         "Perlach to Milbertshofen": nx.shortest_path_length(G, nearest_crossings["Perlach"], nearest_crossings["Milbertshofen"], weight='length'),
     }
 
-    # Initialize a list to store the coordinates of all nodes in each route
-    routes_coords = []
-    # Define a function to get the coordinates of a node
-    """
-    def get_coords_from_node(graph, node_id):
-        node = graph.nodes[node_id]
-        return node['y'], node['x']
-    
 
-    # Iterate over each route and extract the coordinates of all nodes
-    for route_edge_disjoint_paths in routes:
-        route_coords = []
-        for edge_disjoint_path in route_edge_disjoint_paths:
-            path_coords = [get_coords_from_node(G, node) for node in edge_disjoint_path]
-            route_coords.append(path_coords)
-        routes_coords.append(route_coords)
-        print(route_coords)
-    """
-
-    # Plot the graph and routes
-    #flattened_routes = [node for route in routesandpath_nodes for node in route]
-    #route_colors=['red', 'red', 'red', 'blue', 'blue','blue', 'green', 'green', 'green', 'yellow', 'yellow','yellow', 'orange', 'orange', 'orange']
-    #fig, ax = ox.plot_graph_routes(G, flattened_routes, route_colors=route_colors , route_linewidth=6, node_size=8)
-    #plt.show()
 
     return coords, routesandpath_nodes, routes_shortestpath_length, G
 
