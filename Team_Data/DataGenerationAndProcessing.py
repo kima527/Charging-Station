@@ -10,6 +10,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # ---------------------------------------------------Data gathering----------------------------------------------------
 
 def get_routes():
+    """
     # Define locations
     locations = {
         "Marienplatz": "Marienplatz, Munich, Germany",
@@ -19,16 +20,26 @@ def get_routes():
         "TUM City Center": "Arcisstraße 21, 80333 Munich, Germany",
         "Münchener Freiheit": "Münchener Freiheit, Munich, Germany"
     }
+     """
+    locations = {
+        "Perlach": "Perlach, Munich, Germany",
+        "Neuhausen": "Neuhausen, Munich, Germany",
+        "Münchener Freiheit": "Münchener Freiheit, Munich, Germany",
+        "Thalkirchen": "Thalkirchen, Munich, Germany",
+        "Bogenhausen": "Bogenhausen, Munich, Germany",
+        "Milbertshofen": "Milbertshofen, Munich, Germany"
+    }
 
     # Geocode locations
     coords = {name: ox.geocode(loc) for name, loc in locations.items()}
 
     # Create a network graph for Munich
-    G = ox.graph_from_address("Munich, Germany", network_type='drive', dist=3000)
+    G = ox.graph_from_address("Munich, Germany", network_type='drive', dist=5000)#3000
 
     # Find the nearest nodes to the locations
     nearest_nodes = {name: ox.distance.nearest_nodes(G, point[1], point[0]) for name, point in coords.items()}
 
+    """
     # Calculate the shortest paths
     routes_nodes = {
         "Marienplatz to Olympiapark": nx.shortest_path(G, nearest_nodes["Marienplatz"], nearest_nodes["Olympiapark"], weight='length'),
@@ -47,7 +58,21 @@ def get_routes():
         "TUM City Center to Münchener Freiheit": nx.shortest_path_length(G, nearest_nodes["TUM City Center"], nearest_nodes["Münchener Freiheit"], weight='length'),
         "Münchener Freiheit to Olympiapark": nx.shortest_path_length(G, nearest_nodes["Münchener Freiheit"], nearest_nodes["Olympiapark"], weight='length'),
     }
-
+    """
+    routes_nodes = {
+        "Perlach to Neuhausen": nx.shortest_path(G, nearest_nodes["Perlach"], nearest_nodes["Neuhausen"], weight='length'),
+        "Thalkirchen to Münchner Freiheit": nx.shortest_path(G, nearest_nodes["Thalkirchen"], nearest_nodes["Münchener Freiheit"], weight='length'),
+        "Bogenhausen to Thalkirchen": nx.shortest_path(G, nearest_nodes["Bogenhausen"], nearest_nodes["Thalkirchen"], weight='length'),
+        "Bogenhausen to Neuhausen": nx.shortest_path(G, nearest_nodes["Bogenhausen"], nearest_nodes["Neuhausen"], weight='length'),
+        "Perlach to Milbertshofen": nx.shortest_path(G, nearest_nodes["Perlach"], nearest_nodes["Milbertshofen"], weight='length'),
+        }
+    routes_length = {
+        "Perlach to Neuhausen": nx.shortest_path_length(G, nearest_nodes["Perlach"], nearest_nodes["Neuhausen"], weight='length'),
+        "Thalkirchen to Münchner Freiheit": nx.shortest_path_length(G, nearest_nodes["Thalkirchen"], nearest_nodes["Münchener Freiheit"], weight='length'),
+        "Bogenhausen to Thalkirchen": nx.shortest_path_length(G, nearest_nodes["Bogenhausen"], nearest_nodes["Thalkirchen"], weight='length'),
+        "Bogenhausen to Neuhausen": nx.shortest_path_length(G, nearest_nodes["Bogenhausen"], nearest_nodes["Neuhausen"], weight='length'),
+        "Perlach to Milbertshofen": nx.shortest_path_length(G, nearest_nodes["Perlach"], nearest_nodes["Milbertshofen"], weight='length'),
+        }
     return coords, routes_nodes, routes_length, G
 
 
