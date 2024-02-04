@@ -33,11 +33,11 @@ class Model:
             annual_trips = data.get_flows(coords, routes_shortestpath_length)
             Q, P, K, N_qp, f_q, f_qp, d_k = extendData.get_parameters_extended(routesandpath_nodes, annual_trips)
 
-        for q in Q:  # Iterate through each OD pair in Q
-            for p in f_qp[q]:  # Iterate through each path for the OD pair
-                demand_value = f_qp[q][p]  # Access the demand value for this path
-                # Print the demand, rounding the value for readability, and formatting the string as required
-                print(f"Demand from {q} path {p}: {round(demand_value, 2)} per 30 minutes")
+            for q in Q:  # Iterate through each OD pair in Q
+                for p in f_qp[q]:  # Iterate through each path for the OD pair
+                    demand_value = f_qp[q][p]  # Access the demand value for this path
+                    # Print the demand, rounding the value for readability, and formatting the string as required
+                    print(f"Demand from {q} path {p}: {round(demand_value, 2)} per 30 minutes")
 
         # Create a Gurobi model
         model = gp.Model("OD_Flow_Maximization")

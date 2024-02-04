@@ -45,7 +45,7 @@ VC = 20
 # Values in 1000$
 
 # Budget available
-B = 100
+B = 250
 
 # Module Cap
 CAP = 8
@@ -256,5 +256,5 @@ def get_modelresults_budgetiterations(Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP):
 #TODO In post-processing relate q-keys to coordinates, visualize network and nodes where stations are installed.----
 #     Then visualize the arcs in colours, depending on how much of their flow is covered.---------------------------
 
-#get_modelresults(B, Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP)
-get_modelresults_budgetiterations(Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP)
+get_modelresults(B, Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP)
+#get_modelresults_budgetiterations(Q, P, K, N_qp, f_qp, d_k, FC, VC, CAP)

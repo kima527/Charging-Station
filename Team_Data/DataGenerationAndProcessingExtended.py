@@ -102,7 +102,7 @@ def get_parameters_extended(routesandpath_nodes, annual_trips):
                 for i in range(1, 4):
                     od_key = int(i)  # Construct the key for the corresponding flow in f_qp
                     flow = f_qp.get(od, {}).get(od_key, 0)  # Get the flow value from f_qp or use 0 if not found
-                    d_k[node] += flow
+                    d_k[node] += flow/2
 
     # d_k now contains the summed demand for each node based on the routes and flows
 
