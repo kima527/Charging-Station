@@ -23,17 +23,17 @@ N_qp = [[[1, 2, 3, 4], [1, 0, 4], [1, 5, 4]], [[0, 3, 5], [0, 2, 5], [0, 4, 5]],
         [[4, 6, 8], [4, 6, 8], [4, 5, 8]]]
 
 # Set of flows through OD-pairs q
-f_q = {0: 8, 1: 2, 2: 4}  # Replace ... with the actual sets of flows
+f_q = {0: 9, 1: 6, 2: 3}  # Replace ... with the actual sets of flows
 
 # Set of flows through path-options of OD-pair q {50%,25%,25%}
 
-f_qp = {0: {0: 4, 1: 2, 2: 2}, 1: {0: 1, 1: 0.5, 2: 0.5}, 2: {0: 2, 1: 1, 2: 1}}
+f_qp = {0: {0: 3, 1: 3, 2: 3}, 1: {0: 2, 1: 2, 2: 2}, 2: {0: 1, 1: 1, 2: 1}}
 
 # Set of flows through node k
 # F_k = {0: {0, 1, ...}, 1: {2, 3, ...}, ...}  # Repetitive since we have Nqp
 
 # Total demand at node k if OD-pair q has not been served yet - demand at start and end nodes is total demand
-d_k = {0: 4, 1: 8, 2: 4.5, 3: 5, 4: 12.5, 5: 5, 6: 3, 7: 0, 8: 4}
+d_k = {0: 6, 1: 9, 2: 5, 3: 5, 4: 14, 5: 10, 6: 2, 7: 0, 8: 3}
 
 # Fixed charging station installation cost
 FC = 21

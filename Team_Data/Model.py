@@ -3,6 +3,7 @@ from gurobipy import GRB
 import DataGenerationAndProcessing as data
 import DataGenerationAndProcessingExtended as extendData
 import osmnx as ox
+import matplotlib.pyplot as plt
 
 class Model:
 
@@ -64,14 +65,14 @@ class Model:
             model.addConstr(gp.quicksum(z[k] * FC + x[k] * VC for k in K) <= B, "Budget_Constraint")
             model.addConstrs((x[k] <= z[k] * M for k in K), "Module_Capacity")
             model.addConstrs((x[k] <= CAP for k in K), "Cap on modules at one station")
-            model.addConstrs((y[q, p] >= 0.2 for q in Q for p in P), "Minimum service ratio for all paths, when Budget>=4000")
+            model.addConstrs((y[q, p] >= 0.5 for q in Q for p in P), "Minimum service ratio for all paths, when Budget>=4000")
 
         else:
             model.addConstrs((gp.quicksum(x[k] / self.d_k[k] for k in self.N_q[od]) >= y[od] for od in self.Q), "Proportion_Refueled")
             model.addConstr(gp.quicksum(z[k] * FC + x[k] * VC for k in K) <= B, "Budget_Constraint")
             model.addConstrs((x[k] <= z[k] * M for k in K), "Module_Capacity")
             model.addConstrs((x[k] <= CAP for k in K), "Cap on modules at one station")
-            model.addConstrs((y[od] >= 0.2 for od in Q),"Minimum service ratio for all paths, when Budget>=4000")
+            #model.addConstrs((y[od] >= 0.5 for od in Q),"Minimum service ratio for all paths, when Budget>=4000")
 
 
         return model
@@ -91,6 +92,23 @@ class Model:
                 for od in self.Q:
                     print(f" {od}:", round(y[od].x, 4) * 100, "%")
             print("\nOptimal Solution:")
+
+            #q_values =5
+            #yq = []
+
+            #for od in self.Q:
+                #yq.append(y[od].X)
+
+
+            #plt.bar(range(q_values), yq, color='blue')
+
+            #plt.xticks(range(q_values), range(q_values))
+
+            #plt.xlabel('OD-Tour, q')
+            #plt.ylabel('y[q]')
+           # plt.title('Relative coverage of OD-Tours with a Budget of $'+ str(self.B/1000) +'Mil ')
+            #plt.ylim(0,1.2)
+            #plt.show()
             for k in self.K:
                 if z[k].x == 1:
                     print(f" Node {k}:", round(x[k].x), "modules")
