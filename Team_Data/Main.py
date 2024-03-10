@@ -51,9 +51,9 @@ if __name__ == '__main__':
     plt.grid(True)
     plt.show()
     """
-    """
+
     # Please uncomment this block to run the Base model
-    #
+
     coords, routes_nodes, routes_length, G = data.get_routes()
     annual_trips = data.get_flows(coords, routes_length)
     Q, K, N_q, f_q, d_k = data.get_parameters(routes_nodes, G, annual_trips)
@@ -61,13 +61,13 @@ if __name__ == '__main__':
     base_model.run()
     base_model_visualize = Visualize.Visualize()
     base_model_visualize.base_model_map(G, routes_nodes)
-    """
+
 
     # Please uncomment this block to run extended model
-
+    """
     coords, routes_nodes, routes_length, G = extendedData.get_routesandpaths()
     annual_trips = data.get_flows(coords, routes_length)
-    Q, P, K, N_qp, f_q, f_qp, d_k = extendedData.get_parameters_extended(routes_nodes, annual_trips)
+    Q, P, K, N_qp, f_q, f_qp, d_k = extendedData.get_parameters_extended(routes_nodes, annual_trips,routes_length, G)
     model = Model.Model(FC, VC, B, CAP, M, Q, K, N_qp, f_qp, d_k, coords, routes_nodes, routes_length, G, True)
 
 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     model_path.paths(G, routes_nodes) # initial visualization of paths on the map
 
     model.run()
-
+    """
 
 
     after_model = Visualize.Visualize(model.result_locations)

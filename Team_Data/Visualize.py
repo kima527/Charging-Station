@@ -4,12 +4,9 @@
 # Implement the visualization of solution ( which node, how many if possible)
 
 import osmnx as ox
-import networkx as nx
 import matplotlib.pyplot as plt
-from shapely.geometry import Point, LineString
-import geopy.distance
-from DataGenerationAndProcessing import get_routes
 import PotentialLocation
+import numpy as np
 
 class Visualize:
 
@@ -18,7 +15,14 @@ class Visualize:
 
     def paths(self, G, routes_nodes):
         flattened_routes = [node for route in routes_nodes for node in route]
-        route_colors=['red', 'red', 'red', 'blue', 'blue','blue', 'green', 'green', 'green', 'yellow', 'yellow','yellow', 'orange', 'orange', 'orange']
+
+        route_colors = []
+        color_groups = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'cyan', 'magenta', 'lime', 'pink',
+                        'teal', 'lavender', 'brown', 'maroon', 'navy', 'olive', 'gray', 'black', 'white']
+
+        for i, route in enumerate(routes_nodes):
+            color_index = i // 3
+            route_colors.extend([color_groups[color_index]] * len(route))
         fig, path = ox.plot_graph_routes(G, flattened_routes, route_colors=route_colors , route_linewidth=6, node_size=8)
         plt.show()
 

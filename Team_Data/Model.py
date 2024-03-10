@@ -5,7 +5,7 @@ import DataGenerationAndProcessingExtended as extendData
 import osmnx as ox
 import matplotlib.pyplot as plt
 
-class Model:
+class Model: # base model and extended model
 
     def __init__(self, FC, VC, B, CAP, M, Q, K, N_q, f_q, d_k, coords, routes_nodes, routes_length, G, is_extended=False, N_qp=None, f_qp=None, P=None):
         self.FC = FC
@@ -29,10 +29,11 @@ class Model:
 
     def create_model(self, FC, VC, B, CAP, M, Q, K, N_q, f_q, d_k, coords, routes_nodes, routes_length, G, N_qp=None,
                      f_qp=None, P=None):
+
         if self.is_extended:
             coords, routesandpath_nodes, routes_shortestpath_length, G = extendData.get_routesandpaths()
             annual_trips = data.get_flows(coords, routes_shortestpath_length)
-            Q, P, K, N_qp, f_q, f_qp, d_k = extendData.get_parameters_extended(routesandpath_nodes, annual_trips)
+            Q, P, K, N_qp, f_q, f_qp, d_k = extendData.get_parameters_extended(routesandpath_nodes, annual_trips, routes_shortestpath_length, G)
 
             for q in Q:  # Iterate through each OD pair in Q
                 for p in f_qp[q]:  # Iterate through each path for the OD pair
@@ -40,10 +41,11 @@ class Model:
                     # Print the demand, rounding the value for readability, and formatting the string as required
                     print(f"Demand from {q} path {p}: {round(demand_value, 2)} per 30 minutes")
 
-        # Create a Gurobi model
+        # Create Gurobi model and set solving time limit to 2 minutes
         model = gp.Model("OD_Flow_Maximization")
         model.setParam('TimeLimit',120)
-        # Decision variables
+
+        # Decision variables as in mathematical model description
         global x, y, z
         if self.is_extended:
             y = model.addVars(self.Q, P, lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name="y")
@@ -53,19 +55,19 @@ class Model:
         z = model.addVars(self.K, vtype=GRB.BINARY, name="z")
 
 
-        # Objective function
+        # Objective function as in mathematical model description
         if self.is_extended:
             model.setObjective(gp.quicksum(f_qp[q][p] * y[q, p] for q in Q for p in P), GRB.MAXIMIZE)
         else:
             model.setObjective(gp.quicksum(self.f_q[od] * y[od] for od in self.Q), GRB.MAXIMIZE)
 
-        # Constraints
+        # Constraints as in mathematical model description
         if self.is_extended:
             model.addConstrs((gp.quicksum(x[k] / self.d_k[k] for k in N_qp[q][p]) >= y[q, p] for q in Q for p in P), "Proportion_Refueled")
             model.addConstr(gp.quicksum(z[k] * FC + x[k] * VC for k in K) <= B, "Budget_Constraint")
             model.addConstrs((x[k] <= z[k] * M for k in K), "Module_Capacity")
             model.addConstrs((x[k] <= CAP for k in K), "Cap on modules at one station")
-            model.addConstrs((y[q, p] >= 0.5 for q in Q for p in P), "Minimum service ratio for all paths, when Budget>=4000")
+            #model.addConstrs((y[q, p] >= 0.5 for q in Q for p in P), "Minimum service ratio for all paths, when Budget>=4000")
 
         else:
             model.addConstrs((gp.quicksum(x[k] / self.d_k[k] for k in self.N_q[od]) >= y[od] for od in self.Q), "Proportion_Refueled")
@@ -106,7 +108,7 @@ class Model:
 
             #plt.xlabel('OD-Tour, q')
             #plt.ylabel('y[q]')
-           # plt.title('Relative coverage of OD-Tours with a Budget of $'+ str(self.B/1000) +'Mil ')
+            #plt.title('Relative coverage of OD-Tours with a Budget of $'+ str(self.B/1000) +'Mil ')
             #plt.ylim(0,1.2)
             #plt.show()
             for k in self.K:
