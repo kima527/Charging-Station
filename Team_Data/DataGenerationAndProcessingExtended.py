@@ -17,7 +17,11 @@ def get_routesandpaths(): # Loads locations of denseley populated areas and conn
         "Oberfoehring": "Bürgerpark Oberföhring, Munich, Germany",
         "Berg-am-Laim": "Sankt Pius, Munich, Germany",
         "Giesing": "Wettersteinplatz, Munich, Germany",
-        "Sendling": "Pilsenseestraße, Munich, Germany"
+        "Sendling": "Pilsenseestraße, Munich, Germany",
+        "Stachus": "Karlsplatz 11, Munich, Germany",
+        "Sendlinger-Tor": "Sendlinger-Tor-Platz 14, Munich, Germany",
+        "Isartor": "Isartor/Zweibrückenstr., Munich, Germany",
+        "Odeonsplatz": "Odeonsplatz, Munich, Germany"
     }
 
     # Function finding the nearest node with more than min_edges in-/outgoing edges
@@ -48,43 +52,30 @@ def get_routesandpaths(): # Loads locations of denseley populated areas and conn
         list(nx.edge_disjoint_paths(G, nearest_crossings["Bogenhausen"], nearest_crossings["Thalkirchen"], cutoff=3)),
         list(nx.edge_disjoint_paths(G, nearest_crossings["Bogenhausen"], nearest_crossings["Neuhausen"], cutoff=3)),
         list(nx.edge_disjoint_paths(G, nearest_crossings["Perlach"], nearest_crossings["Freimann"], cutoff=3)),
-        #list(nx.edge_disjoint_paths(G, nearest_crossings["Perlach"], nearest_crossings["Feldmoching"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Hadern"], nearest_crossings["Neuhausen"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Moosach"], nearest_crossings["Neuhausen"], cutoff=3)),
-        #list(nx.edge_disjoint_paths(G, nearest_crossings["Moosach"], nearest_crossings["Perlach"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Moosach"], nearest_crossings["Feldmoching"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Feldmoching"], nearest_crossings["Freimann"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Freimann"], nearest_crossings["Oberfoehring"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Oberfoehring"], nearest_crossings["Bogenhausen"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Bogenhausen"], nearest_crossings["Berg-am-Laim"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Berg-am-Laim"], nearest_crossings["Perlach"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Perlach"], nearest_crossings["Giesing"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Giesing"], nearest_crossings["Thalkirchen"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Thalkirchen"], nearest_crossings["Sendling"], cutoff=3)),
-        list(nx.edge_disjoint_paths(G, nearest_crossings["Sendling"], nearest_crossings["Hadern"], cutoff=3))
+        list(nx.edge_disjoint_paths(G, nearest_crossings["Hadern"], nearest_crossings["Stachus"], cutoff=3)),
+        list(nx.edge_disjoint_paths(G, nearest_crossings["Moosach"], nearest_crossings["Stachus"], cutoff=3)),
+        list(nx.edge_disjoint_paths(G, nearest_crossings["Feldmoching"], nearest_crossings["Odeonsplatz"], cutoff=3)),
+        list(nx.edge_disjoint_paths(G, nearest_crossings["Oberfoehring"], nearest_crossings["Odeonsplatz"], cutoff=3)),
+        list(nx.edge_disjoint_paths(G, nearest_crossings["Berg-am-Laim"], nearest_crossings["Isartor"], cutoff=3)),
+        list(nx.edge_disjoint_paths(G, nearest_crossings["Giesing"], nearest_crossings["Sendlinger-Tor"], cutoff=3)),
+        list(nx.edge_disjoint_paths(G, nearest_crossings["Sendling"], nearest_crossings["Sendlinger-Tor"], cutoff=3))
     ]
-
+    for i in routesandpath_nodes:
+        print(len(i))
     # Stores the shortest distance between OD-pairs
     routes_shortestpath_length = {
-        "Perlach to Neuhausen": nx.shortest_path_length(G, nearest_crossings["Perlach"], nearest_crossings["Neuhausen"], weight='length'),
-        "Thalkirchen to Freimann": nx.shortest_path_length(G, nearest_crossings["Thalkirchen"], nearest_crossings["Freimann"], weight='length'),
-        "Bogenhausen to Thalkirchen": nx.shortest_path_length(G, nearest_crossings["Bogenhausen"], nearest_crossings["Thalkirchen"], weight='length'),
-        "Bogenhausen to Neuhausen": nx.shortest_path_length(G, nearest_crossings["Bogenhausen"], nearest_crossings["Neuhausen"], weight='length'),
-        "Perlach to Freimann": nx.shortest_path_length(G, nearest_crossings["Perlach"], nearest_crossings["Freimann"], weight='length'),
-        #"Perlach to Feldmoching": nx.shortest_path_length(G, nearest_crossings["Perlach"], nearest_crossings["Feldmoching"], weight='length'),
-        "Hadern to Neuhausen": nx.shortest_path_length(G, nearest_crossings["Hadern"],nearest_crossings["Neuhausen"], weight='length'),
-        "Moosach to Neuhausen": nx.shortest_path_length(G, nearest_crossings["Moosach"], nearest_crossings["Neuhausen"],weight='length'),
-        #"Moosach to Perlach": nx.shortest_path_length(G, nearest_crossings["Moosach"], nearest_crossings["Perlach"],weight='length'),
-        "Moosach to Feldmoching": nx.shortest_path_length(G, nearest_crossings["Moosach"], nearest_crossings["Feldmoching"],weight='length'),
-        "Feldmoching to Freimann": nx.shortest_path_length(G, nearest_crossings["Feldmoching"], nearest_crossings["Freimann"], weight='length'),
-        "Freimann to Oberfoehring": nx.shortest_path_length(G, nearest_crossings["Freimann"], nearest_crossings["Oberfoehring"], weight='length'),
-        "Oberfoehring to Bogenhausen": nx.shortest_path_length(G, nearest_crossings["Oberfoehring"], nearest_crossings["Bogenhausen"], weight='length'),
-        "Bogenhausen to Berg-am-Laim": nx.shortest_path_length(G, nearest_crossings["Bogenhausen"], nearest_crossings["Berg-am-Laim"], weight='length'),
-        "Berg-am-Laim to Perlach": nx.shortest_path_length(G, nearest_crossings["Berg-am-Laim"], nearest_crossings["Perlach"], weight='length'),
-        "Perlach to Giesing": nx.shortest_path_length(G, nearest_crossings["Perlach"], nearest_crossings["Giesing"], weight='length'),
-        "Giesing to Thalkirchen": nx.shortest_path_length(G, nearest_crossings["Giesing"], nearest_crossings["Thalkirchen"], weight='length'),
-        "Thalkirchen to Sendling": nx.shortest_path_length(G, nearest_crossings["Thalkirchen"], nearest_crossings["Sendling"], weight='length'),
-        "Sendling to Hadern": nx.shortest_path_length(G, nearest_crossings["Sendling"], nearest_crossings["Hadern"], weight='length'),
+        "Perlach to Neuhausen": nx.shortest_path_length(G, nearest_crossings["Perlach"], nearest_crossings["Neuhausen"],weight='length'),
+        "Thalkirchen to Freimann": nx.shortest_path_length(G, nearest_crossings["Thalkirchen"], nearest_crossings["Freimann"],weight='length'),
+        "Bogenhausen to Thalkirchen": nx.shortest_path_length(G, nearest_crossings["Bogenhausen"], nearest_crossings["Thalkirchen"],weight='length'),
+        "Bogenhausen to Neuhausen": nx.shortest_path_length(G, nearest_crossings["Bogenhausen"], nearest_crossings["Neuhausen"],weight='length'),
+        "Perlach to Freimann": nx.shortest_path_length(G, nearest_crossings["Perlach"], nearest_crossings["Freimann"],weight='length'),
+        "Hadern to Stachus": nx.shortest_path_length(G, nearest_crossings["Hadern"], nearest_crossings["Stachus"],weight='length'),
+        "Moosach to Stachus": nx.shortest_path_length(G, nearest_crossings["Moosach"], nearest_crossings["Stachus"],weight='length'),
+        "Feldmoching to Odeonsplatz": nx.shortest_path_length(G, nearest_crossings["Feldmoching"], nearest_crossings["Odeonsplatz"],weight='length'),
+        "Oberfoehring to Odeonsplatz": nx.shortest_path_length(G, nearest_crossings["Oberfoehring"], nearest_crossings["Odeonsplatz"],weight='length'),
+        "Berg-am-Laim to Isartor": nx.shortest_path_length(G, nearest_crossings["Berg-am-Laim"], nearest_crossings["Isartor"],weight='length'),
+        "Giesing to Sendlinger-Tor": nx.shortest_path_length(G, nearest_crossings["Giesing"], nearest_crossings["Sendlinger-Tor"],weight='length'),
+        "Sendling to Sendlinger-Tor": nx.shortest_path_length(G, nearest_crossings["Sendling"], nearest_crossings["Sendlinger-Tor"], weight='length'),
     }
 
 
