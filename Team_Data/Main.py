@@ -51,7 +51,7 @@ if __name__ == '__main__':
     plt.grid(True)
     plt.show()
     """
-    """
+
     # Please uncomment this block to run the Base model
 
     coords, routes_nodes, routes_length, G = data.get_routes()
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     after_model = Visualize.Visualize(model.result_locations)
     after_model.where_to_install(G) # result location shown on the map
-
+    """
 
 
 
