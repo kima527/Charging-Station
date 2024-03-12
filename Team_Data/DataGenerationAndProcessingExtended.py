@@ -78,8 +78,6 @@ def get_routesandpaths(): # Loads locations of denseley populated areas and conn
         "Sendling to Sendlinger-Tor": nx.shortest_path_length(G, nearest_crossings["Sendling"], nearest_crossings["Sendlinger-Tor"], weight='length'),
     }
 
-
-
     return coords, routesandpath_nodes, routes_shortestpath_length, G
 
 

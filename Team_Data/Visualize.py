@@ -16,6 +16,9 @@ class Visualize:
     def paths(self, G, routes_nodes):
         flattened_routes = [node for route in routes_nodes for node in route]
 
+        # Initialize total_nodes counter
+        total_nodes = 0
+
         route_colors = []
         color_groups = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'cyan', 'magenta', 'lime', 'pink',
                         'teal', 'lavender', 'brown', 'maroon', 'navy', 'olive', 'gray', 'black', 'white']
@@ -23,7 +26,19 @@ class Visualize:
         for i, route in enumerate(routes_nodes):
             color_index = i // 3
             route_colors.extend([color_groups[color_index]] * len(route))
-        fig, path = ox.plot_graph_routes(G, flattened_routes, route_colors=route_colors , route_linewidth=6, node_size=8)
+
+        for i, node in enumerate(flattened_routes):
+            # Count nodes in the current route
+            nodes_in_route = len(node)
+            print(f"Path {i + 1} has {nodes_in_route} nodes.")
+
+            # Update total_nodes counter
+            total_nodes += nodes_in_route
+
+        # Print the total number of nodes
+        print(f"Total number of nodes across all routes: {total_nodes}")
+
+        fig, path = ox.plot_graph_routes(G, flattened_routes, route_colors=route_colors, route_linewidth=6, node_size=8)
         plt.show()
 
     def where_to_install(self, G):
