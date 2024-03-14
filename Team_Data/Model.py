@@ -99,27 +99,37 @@ class Model:  # base model and extended model
                     print(f" {od}:", round(y[od].x, 4) * 100, "%")
             print("\nOptimal Solution:")
 
-            # q_values =5
-            # yq = []
+            #Uncomment this block for visualizing relative tour coverage (In the case of extended, only for equal flow dist!)
 
-            # for od in self.Q:
-            # yq.append(y[od].X)
+            q_values =12
+            yq = []
 
-            # plt.bar(range(q_values), yq, color='blue')
+            if self.is_extended:
+                for od in self.Q:  # Assuming q_values is the number of OD-tours
+                    yq.append(sum(y[od, p].X for p in P)/3)
 
-            # plt.xticks(range(q_values), range(q_values))
+            else:
+                for od in self.Q:
+                    yq.append(y[od].X)
 
-            # plt.xlabel('OD-Tour, q')
-            # plt.ylabel('y[q]')
-            # plt.title('Relative coverage of OD-Tours with a Budget of $'+ str(self.B/1000) +'Mil ')
-            # plt.ylim(0,1.2)
-            # plt.show()
+            plt.bar(range(q_values), yq, color='blue')
+
+            plt.xticks(range(q_values), range(q_values))
+
+            plt.xlabel('OD-Tour, q')
+            plt.ylabel('y[q]')
+            plt.title('Relative coverage of OD-Tours with a Budget of $'+ str(self.B/1000) +'Mil ')
+            plt.ylim(0,1.2)
+            plt.show()
+
+            # Node output for visualization. Uncomment for visualization
             """
             for k in self.K:
                 if z[k].x == 1:
                     print(f" Node {k}:", round(x[k].x), "modules")
                     node_coords = self.get_node_coordinates(k)
                     result_locations.append(node_coords)
+                    
             """
         else:
             print("Optimization problem did not converge to an optimal solution.")
@@ -136,8 +146,9 @@ class Model:  # base model and extended model
                                       self.d_k, self.coord, self.routes_nodes, self.routes_length, self.G)
         model.optimize()
         objective = model.objVal
+        gap = model.MIPGap
         self.print_result(model)
-        return objective
+        return objective, gap
 
     def get_node_coordinates(self, node_id):
         G = ox.graph_from_address("Munich, Germany", network_type='drive', dist=5000)

@@ -178,9 +178,9 @@ def get_parameters_extended(routesandpath_nodes, annual_trips,routes_shortestpat
     for od, value in f_q.items():
         # Explicitly assign the percentages to each path option
         f_qp[od] = {
-            1: value * 0.7,
-            2: value * 0.2,
-            3: value * 0.1
+            1: value * (1/3),
+            2: value * (1/3),
+            3: value * (1/3)
         }
 
     # Summed demand on node keK based on all flows

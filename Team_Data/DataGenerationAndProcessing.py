@@ -3,6 +3,7 @@ import osmnx as ox
 import networkx as nx
 import math
 from geopy.distance import great_circle
+import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -148,8 +149,24 @@ def get_parameters(routes_nodes, G, annual_trips): # Generate all necessary para
     for od, value in annual_trips.items():
         f_q[od] = (value/Charger_annual_capacity) * EVsPerCapitaGer - 0.05
 
+    #Uncomment to load total and individual flows
+    '''
+    f_q_values = list(f_q.values())
+    od_indices = range(len(f_q))
+
+    plt.bar(od_indices, f_q_values, color='orange')
+    plt.xlabel('OD Tour, q')
+    plt.ylabel('f_q')
+    plt.title('Flows on individual OD-routes every 30 minutes')
+
+    # Set xticks and xtick labels
+    plt.xticks(od_indices)
+
+    plt.show()
+    
     total_flow = sum(f_q.values())  # Calculate the total flow by summing the values of f_q
     print(total_flow)
+    '''
 
     # Summed demand on node keK based on all flows
     d_k = {node: 0 for node in G.nodes()}

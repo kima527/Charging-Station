@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     FC = 21  # Fixed charging station installation cost
     VC = 20  # Variable charging station installation cost
-    B = 30000  # Budget
+    B = 20000  # Budget
     CAP = 6  # Module Cap
     M = 999999  # Very large number
 
@@ -75,35 +75,44 @@ if __name__ == '__main__':
 
     model.run()
 
-    after_model = Visualize.Visualize(model.result_locations)
-    after_model.where_to_install(G)  # result location shown on the map
+    #after_model = Visualize.Visualize(model.result_locations)
+    #after_model.where_to_install(G)  # result location shown on the map
     """
 
     # Please uncomment this block to run a Budget Iteration of the Extended model
 
-    Iterations = range(10)
-    Initial_budget = 39000
+    Iterations = range(20)
+    Initial_budget = 19000
     Budget_steps = 1000
 
     B = Initial_budget
 
     budget_values = []
     objective_values = []
+    gaps = []
 
     coords, routes_nodes, routes_length, G = extendedData.get_routesandpaths()
     annual_trips = data.get_flows(coords, routes_length)
     Q, P, K, N_qp, f_q, f_qp, d_k = extendedData.get_parameters_extended(routes_nodes, annual_trips, routes_length, G)
 
+
     for i in Iterations:
         print("ITERATION", i, "BUDGET", B)
 
         model = Model.Model(FC, VC, B, CAP, M, Q, K, N_qp, f_qp, d_k, coords, routes_nodes, routes_length, G, True)
-        objective = model.run()
+        objective, gap = model.run()
 
         budget_values.append(B / 1000)
         objective_values.append(objective)
+        gaps.append(gap)
 
         B += Budget_steps
+
+
+    #printing the outputs
+    print(budget_values)
+    print(objective_values)
+    print(gaps)
 
     # Plotting the graph
     plt.plot(budget_values, objective_values, marker='o')
