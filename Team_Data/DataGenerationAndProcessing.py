@@ -146,7 +146,7 @@ def get_parameters(routes_nodes, G, annual_trips): # Generate all necessary para
     # Flows through OD-pairs on each 30 mins
     f_q = {od: flow_value for od, flow_value in zip(Q, [])}
     for od, value in annual_trips.items():
-        f_q[od] = (value/Charger_annual_capacity)*EVsPerCapitaGer
+        f_q[od] = (value/Charger_annual_capacity) * EVsPerCapitaGer - (2.7327 * 230)
 
     # Summed demand on node keK based on all flows
     d_k = {node: 0 for node in G.nodes()}

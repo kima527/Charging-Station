@@ -1,8 +1,3 @@
-#TODO data visualization
-# Implement Marcos OUtput processing
-# Potential locations are not shown correctly
-# Implement the visualization of solution ( which node, how many if possible)
-
 import osmnx as ox
 import matplotlib.pyplot as plt
 import PotentialLocation
@@ -25,8 +20,6 @@ class Visualize:
             route_colors.extend([color_groups[color_index]] * len(route))
 
         fig, path = ox.plot_graph_routes(G, flattened_routes, route_colors=route_colors, route_linewidth=6, node_size=8)
-        plt.show()
-
         plt.show()
 
     def where_to_install(self, G):

@@ -1,8 +1,5 @@
 # We run the code in here
-import shapely
 import warnings
-from shapely.errors import ShapelyDeprecationWarning
-warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
 import DataGenerationAndProcessing as data
 import DataGenerationAndProcessingExtended as extendedData
 import Model
@@ -12,7 +9,7 @@ import Visualize
 if __name__ == '__main__':
     FC = 21  # Fixed charging station installation cost
     VC = 20  # Variable charging station installation cost
-    B = 6000  # Budget
+    B = 3000  # Budget
     CAP = 6  # Module Cap
     M = 999999  # Very large number
     """
@@ -75,15 +72,11 @@ if __name__ == '__main__':
     model_path = Visualize.Visualize()
     model_path.paths(G, routes_nodes)  # initial visualization of paths on the map
 
-    #model.run()
+    model.run()
     #
     #after_model = Visualize.Visualize(model.result_locations)
     #after_model.where_to_install(G)  # result location shown on the map
 
-    # TODO
-    # different scenarios 1, 2, 3 (shortest route, 50/50, 30/30/30)
-    # lower limit of flow to be served in buget iterations - service level fixed
-    # play with these two parameters and always fix one
 
     """
     Iterations = range(10)

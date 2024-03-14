@@ -5,15 +5,12 @@ import osmnx as ox
 import networkx as nx
 from DataGenerationAndProcessing import get_flows
 from shapely.geometry import Point, LineString
-
 import geopy.distance
 from geopandas.tools import sjoin
 import numpy as np
 
-
-
-def get_routesandpaths(): # Loads locations of denseley populated areas and connects them via shortest path and two additional perfectly divergent paths
-
+# Loads locations of denseley populated areas and connects them via shortest path and two additional perfectly divergent paths
+def get_routesandpaths():
     locations = {
         "Perlach": "Perlach, Munich, Germany",
         "Neuhausen": "Neuhausen, Munich, Germany",
