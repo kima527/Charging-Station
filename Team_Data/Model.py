@@ -46,7 +46,7 @@ class Model:  # base model and extended model
 
         # Create Gurobi model and set solving time limit to 2 minutes
         model = gp.Model("OD_Flow_Maximization")
-        #model.setParam('TimeLimit', 120)
+        model.setParam('TimeLimit', 120)
 
         # Decision variables as in mathematical model description
         global x, y, z
@@ -88,6 +88,7 @@ class Model:  # base model and extended model
 
         if model.status == GRB.OPTIMAL or model.Status == GRB.TIME_LIMIT:
             print("\nOptimal Objective Value:", round(model.objVal, 2))
+            print("Final MIP gap value: %f" % model.MIPGap)
             print("\nCoverage:")
             if self.is_extended:
                 for od in self.Q:
@@ -113,11 +114,13 @@ class Model:  # base model and extended model
             # plt.title('Relative coverage of OD-Tours with a Budget of $'+ str(self.B/1000) +'Mil ')
             # plt.ylim(0,1.2)
             # plt.show()
+            """
             for k in self.K:
                 if z[k].x == 1:
                     print(f" Node {k}:", round(x[k].x), "modules")
                     node_coords = self.get_node_coordinates(k)
                     result_locations.append(node_coords)
+            """
         else:
             print("Optimization problem did not converge to an optimal solution.")
 

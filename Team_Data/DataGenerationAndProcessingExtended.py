@@ -166,7 +166,7 @@ def get_parameters_extended(routesandpath_nodes, annual_trips,routes_shortestpat
     # Flows through OD-pairs on each 30 mins
     f_q = {od: flow_value for od, flow_value in zip(Q, [])}
     for od, value in annual_trips.items():
-        f_q[od] = (value/Charger_annual_capacity) * EVsPerCapitaGer
+        f_q[od] = (value/Charger_annual_capacity) * EVsPerCapitaGer- 0.05
 
     '''
     f_qp = {}

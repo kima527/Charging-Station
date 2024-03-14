@@ -34,7 +34,7 @@ class Visualize:
         route_lists = list(routes_nodes.values())
 
         # Ensure that route_colors has the same number of elements as route_lists
-        route_colors = ['orange', 'b', 'purple', 'green', 'skyblue', 'pink'] * (len(route_lists) // 5 + 1)
+        route_colors = ['orange', 'orange', 'orange', 'orange', 'orange', 'b', 'purple', 'green', 'skyblue', 'pink', 'red', 'yellow']# * (len(route_lists) // 5 + 1)
         route_colors = route_colors[:len(route_lists)]  # Trim the list to the length of route_lists
 
         # Plot filtered parking lots
@@ -46,8 +46,10 @@ class Visualize:
         # Plot the graph and routes
         fig, ax = ox.plot_graph_routes(G, route_lists, route_colors=route_colors, route_linewidth=6, node_size=10, figsize=(12, 12), show=False, close=False)
         #fig, ax = ox.plot_graph(G, figsize=(12, 12), show=False, close=False)
+
         for y, x in parking_coords:
             ax.scatter(x, y, c='red', s=20, alpha=0.7, zorder=5)  # Increase the size for visibility
+
         plt.show()
 
     def location(self, G, routes_nodes):
