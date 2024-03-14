@@ -46,7 +46,7 @@ class Model:  # base model and extended model
 
         # Create Gurobi model and set solving time limit to 2 minutes
         model = gp.Model("OD_Flow_Maximization")
-        model.setParam('TimeLimit', 120)
+        #model.setParam('TimeLimit', 120)
 
         # Decision variables as in mathematical model description
         global x, y, z
