@@ -149,7 +149,7 @@ def get_parameters(routes_nodes, G, annual_trips): # Generate all necessary para
     for od, value in annual_trips.items():
         f_q[od] = (value/Charger_annual_capacity) * EVsPerCapitaGer - 0.05
 
-    #Uncomment to load total and individual flows
+    #Uncomment to load total and individual path flows
     '''
     f_q_values = list(f_q.values())
     od_indices = range(len(f_q))

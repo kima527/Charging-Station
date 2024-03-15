@@ -70,7 +70,8 @@ class Model:  # base model and extended model
             model.addConstr(gp.quicksum(z[k] * FC + x[k] * VC for k in K) <= B, "Budget_Constraint")
             model.addConstrs((x[k] <= z[k] * M for k in K), "Module_Capacity")
             model.addConstrs((x[k] <= CAP for k in K), "Cap on modules at one station")
-            # model.addConstrs((y[q, p] >= 0.5 for q in Q for p in P), "Minimum service ratio for all paths, when Budget>=4000")
+            # Uncomment for minimum service constraint and set value accordingly
+            model.addConstrs((y[q, p] >= 0.4 for q in Q for p in P), "Minimum service ratio for all paths, when total service ratio >= minimum service ratio")
 
         else:
             model.addConstrs((gp.quicksum(x[k] / self.d_k[k] for k in self.N_q[od]) >= y[od] for od in self.Q),
@@ -78,7 +79,8 @@ class Model:  # base model and extended model
             model.addConstr(gp.quicksum(z[k] * FC + x[k] * VC for k in K) <= B, "Budget_Constraint")
             model.addConstrs((x[k] <= z[k] * M for k in K), "Module_Capacity")
             model.addConstrs((x[k] <= CAP for k in K), "Cap on modules at one station")
-            # model.addConstrs((y[od] >= 0.5 for od in Q),"Minimum service ratio for all paths, when Budget>=4000")
+            # Uncomment for minimum service constraint and set value accordingly
+            #model.addConstrs((y[od] >= 0.5 for od in Q),"Minimum service ratio for all paths, when total service ratio >= minimum service ratio")
 
         return model
 
@@ -121,6 +123,7 @@ class Model:  # base model and extended model
             plt.title('Relative coverage of OD-Tours with a Budget of $'+ str(self.B/1000) +'Mil ')
             plt.ylim(0,1.2)
             plt.show()
+
 
             # Node output for visualization. Uncomment for visualization
             """
